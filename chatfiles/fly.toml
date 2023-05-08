@@ -1,26 +1,24 @@
-# fly.toml file generated for chatfiles-test on 2023-04-09T21:34:21+08:00
+# fly.toml file generated for mnc-chatfiles-server on 2023-04-28T14:20:06+09:00
 
-app = "chatfiles"
+app = "mnc-chatfiles-server"
 kill_signal = "SIGINT"
-kill_timeout = 60
-mounts = []
-primary_region = "lax"
-processes = []
+kill_timeout = 5
+primary_region = "hkg"
 
 [[services]]
-  internal_port = 5000
-  processes = ["app"]
   protocol = "tcp"
+  internal_port = 5001
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
   [services.concurrency]
+    type = "connections"
     hard_limit = 25
     soft_limit = 20
-    type = "connections"
-
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
-
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
